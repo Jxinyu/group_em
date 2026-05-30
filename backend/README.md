@@ -1,37 +1,82 @@
-# group_em
+# Group EM Backend
 
-#### 介绍
-员工之家
+This module is the Spring Boot backend for the Group Employee Management System.
 
-#### 软件架构
-软件架构说明
+## Features
 
+- Employee, department, job, notice, document, and user management APIs
+- Private chat and group chat backend support
+- File upload and notice image upload configuration
+- Email and group email services
+- Aliyun Facebody-based face search utility
+- Authentication utilities based on Shiro and JWT
+- MyBatis-Plus mapper and XML-based persistence layer
 
-#### 安装教程
+## Tech Stack
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+- Java 8
+- Spring Boot
+- Apache Shiro
+- MyBatis-Plus
+- PageHelper
+- MySQL
+- Maven
 
-#### 使用说明
+## Structure
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+```text
+backend/
++-- src/main/java/com/gp
+|   +-- config/
+|   +-- controller/
+|   +-- filter/
+|   +-- mapper/
+|   +-- pojo/
+|   +-- service/
+|   +-- utils/
+|   +-- ws/
++-- src/main/resources
+|   +-- mapper/
+|   +-- static/
+|   +-- application.yml
++-- pom.xml
+```
 
-#### 参与贡献
+## Configuration
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+Set these environment variables before running the service:
 
+| Variable | Description |
+| --- | --- |
+| `DB_USERNAME` | MySQL username |
+| `DB_PASSWORD` | MySQL password |
+| `DB_URL` | JDBC connection URL |
+| `MAIL_USERNAME` | SMTP account username |
+| `MAIL_PASSWORD` | SMTP password or authorization code |
+| `JWT_SECRET` | JWT signing secret |
+| `ALIYUN_ACCESS_KEY_ID` | Aliyun AccessKey ID |
+| `ALIYUN_ACCESS_KEY_SECRET` | Aliyun AccessKey Secret |
 
-#### 特技
+PowerShell example:
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+```powershell
+$env:DB_USERNAME="root"
+$env:DB_PASSWORD="your_mysql_password"
+$env:JWT_SECRET="your_jwt_secret"
+$env:ALIYUN_ACCESS_KEY_ID="your_aliyun_key_id"
+$env:ALIYUN_ACCESS_KEY_SECRET="your_aliyun_key_secret"
+```
+
+## Run
+
+```powershell
+.\mvnw spring-boot:run
+```
+
+The backend listens on port `8080` by default.
+
+## Notes
+
+- Runtime secrets are not committed to the repository.
+- Prepare the MySQL schema and seed data before starting the application.
+- Local upload paths are configured in `src/main/resources/application.yml`.

@@ -1,37 +1,76 @@
-# group_em_vue
+# Group EM Frontend
 
-#### 介绍
-员工之家-vue3
+This module is the Vue 3 admin frontend for the Group Employee Management System.
 
-#### 软件架构
-软件架构说明
+## Features
 
+- Dashboard-style management UI
+- Employee, department, job, user, notice, document, and chat views
+- Authentication flow and route guards
+- Element Plus component-based interface
+- API integration with the Spring Boot backend
+- File download/export utilities
 
-#### 安装教程
+## Tech Stack
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+- Vue 3
+- TypeScript
+- Vite
+- Element Plus
+- Pinia
+- Vue Router
+- Axios
+- VXE Table
+- pnpm
 
-#### 使用说明
+## Structure
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+```text
+frontend/
++-- public/
++-- src/
+|   +-- api/
+|   +-- assets/
+|   +-- components/
+|   +-- layout/
+|   +-- router/
+|   +-- store/
+|   +-- styles/
+|   +-- utils/
+|   +-- views/
++-- package.json
++-- vite.config.ts
+```
 
-#### 参与贡献
+## Install
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+```powershell
+pnpm install
+```
 
+## Development
 
-#### 特技
+```powershell
+pnpm dev
+```
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+The development API base path is configured in `.env.development`.
+
+## Build
+
+```powershell
+pnpm build:prod
+```
+
+## Useful Scripts
+
+- `pnpm dev`: start the Vite development server
+- `pnpm build:stage`: build with staging mode
+- `pnpm build:prod`: build for production
+- `pnpm lint`: run linting and formatting
+- `pnpm test`: run tests
+
+## Notes
+
+- Start the backend before using the frontend locally.
+- Update the Vite proxy or `VITE_BASE_API` value if the backend address changes.
