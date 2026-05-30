@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gp.mapper.FacekeyInfMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.gp.pojo.FacekeyInf">
+        <id column="Id" property="id" />
+        <result column="appID" property="appID" />
+        <result column="apiKey" property="apiKey" />
+        <result column="secretKey" property="secretKey" />
+        <result column="threshold" property="threshold" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        Id, appID, apiKey, secretKey, threshold
+    </sql>
+
+</mapper>

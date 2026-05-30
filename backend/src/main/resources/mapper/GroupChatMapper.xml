@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gp.mapper.GroupChatMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.gp.pojo.GroupChat">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="content" property="content" />
+        <result column="content_type" property="contentType" />
+        <result column="create_date" property="createDate" />
+        <result column="chat_name" property="chatName" />
+    </resultMap>
+
+    <select id="getChatByUsernameAndChatName" parameterType="string" resultType="groupChat">
+        select username, content, content_type, create_date, chat_name from group_chat where chat_name=#{chatName}
+        order by create_date
+    </select>
+
+</mapper>

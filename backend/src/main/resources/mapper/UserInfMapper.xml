@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gp.mapper.UserInfMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.gp.pojo.UserInf">
+        <id column="ID" property="id" />
+        <result column="Loginname" property="loginname" />
+        <result column="PASSWORD" property="password" />
+        <result column="STATUS" property="status" />
+        <result column="Createdate" property="createdate" />
+        <result column="Username" property="username" />
+        <result column="email" property="email" />
+    </resultMap>
+
+    <select id="queryOneUser" resultType="UserInf">
+        select *
+        from user_inf
+        <where>
+            <if test="id != null">
+                and ID =#{id}
+            </if>
+            <if test="loginname != null">
+                and Loginname like concat('%', #{loginname}, '%')
+            </if>
+            <if test="status != null">
+                and `STATUS` = #{status}
+            </if>
+            <if test="createdate != null">
+                and Createdate like concat(#{createdate}, '%')
+            </if>
+            <if test="username != null">
+                and Username like concat('%', #{username}, '%')
+            </if>
+            <if test="email != null">
+                and email like concat('%', #{email}, '%')
+            </if>
+        </where>
+        order by createdate desc
+    </select>
+
+    <select id="queryAllUser" resultType="UserInf">
+        select * from user_inf;
+    </select>
+
+    <select id="queryOneUserByUsername" resultType="UserInf">
+        select * from user_inf where Loginname=#{username};
+    </select>
+
+    <insert id="addUser" parameterType="UserInf">
+        insert into user_inf (ID, Loginname, PASSWORD, STATUS, Createdate, Username, email)
+        values
+        (#{id},#{loginname}, #{password}, #{status}, #{createdate}, #{username}, #{email});
+    </insert>
+
+    <update id="updateUser" parameterType="UserInf">
+        update user_inf
+        set Loginname=#{loginname}, PASSWORD=#{password}, STATUS=#{status}, Createdate=#{createdate}, Username=#{username},
+            email=#{email}
+        where ID=#{id};
+    </update>
+
+    <update id="updateUserByLoginName" parameterType="UserInf">
+        update user_inf
+        set PASSWORD=#{password}, Username=#{username}
+        where Loginname=#{loginname};
+    </update>
+    <delete id="deleteUser" parameterType="int">
+        delete
+        from user_inf
+        where ID=#{id};
+    </delete>
+</mapper>

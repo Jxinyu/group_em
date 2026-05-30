@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gp.mapper.EmployeeInfMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.gp.pojo.EmployeeInf">
+        <id column="ID" property="id" />
+        <result column="DEPT_ID" property="deptId" />
+        <result column="JOB_ID" property="jobId" />
+        <result column="NAME" property="name" />
+        <result column="CARD_ID" property="cardId" />
+        <result column="ADDRESS" property="address" />
+        <result column="POST_CODE" property="postCode" />
+        <result column="TEL" property="tel" />
+        <result column="PHONE" property="phone" />
+        <result column="QQ_NUM" property="qqNum" />
+        <result column="EMAIL" property="email" />
+        <result column="SEX" property="sex" />
+        <result column="PARTY" property="party" />
+        <result column="BIRTHDAY" property="birthday" />
+        <result column="RACE" property="race" />
+        <result column="EDUCATION" property="education" />
+        <result column="SPECIALITY" property="speciality" />
+        <result column="HOBBY" property="hobby" />
+        <result column="REMARK" property="remark" />
+        <result column="CREATE_DATE" property="createDate" />
+    </resultMap>
+
+
+    <select id="queryOneEmployee" parameterType="int" resultType="EmployeeInf">
+        select ei.*,
+               (select dept_inf.NAME from dept_inf where dept_inf.id=ei.DEPT_ID) as dept,
+               (select job_inf.NAME from job_inf where job_inf.id=ei.JOB_ID) as job
+        from employee_inf ei
+        <where>
+            <if test="id != null">
+                and ei.ID like concat('%', #{id}, '%')
+            </if>
+            <if test="deptId != null">
+                and ei.DEPT_ID = #{deptId}
+            </if>
+            <if test="jobId != null">
+                and ei.JOB_ID = #{jobId}
+            </if>
+            <if test="name != null">
+                and ei.NAME like concat('%', #{name}, '%')
+            </if>
+            <if test="cardId != null">
+                and ei.CARD_ID like concat('%', #{cardId}, '%')
+            </if>
+            <if test="address != null">
+                and ei.ADDRESS like concat('%', #{address}, '%')
+            </if>
+            <if test="postCode != null">
+                and ei.POST_CODE like concat('%', #{postCode}, '%')
+            </if>
+            <if test="tel != null">
+                and ei.TEL like concat('%', #{tel}, '%')
+            </if>
+            <if test="phone != null">
+                and ei.PHONE like concat('%', #{phone}, '%')
+            </if>
+            <if test="qqNum != null">
+                and ei.QQ_NUM like concat('%', #{qqNum}, '%')
+            </if>
+            <if test="email != null">
+                and ei.EMAIL like concat('%', #{email}, '%')
+            </if>
+            <if test="sex != null">
+                and ei.SEX like concat('%', #{sex}, '%')
+            </if>
+            <if test="party != null">
+                and ei.PARTY like concat('%', #{party}, '%')
+            </if>
+            <if test="birthday != null">
+                and ei.BIRTHDAY like concat('%', #{birthday}, '%')
+            </if>
+            <if test="race != null">
+                and ei.RACE like concat('%', #{race}, '%')
+            </if>
+            <if test="education != null">
+                and ei.EDUCATION like concat('%', #{education}, '%')
+            </if>
+            <if test="speciality != null">
+                and ei.SPECIALITY like concat('%', #{speciality}, '%')
+            </if>
+            <if test="hobby != null">
+                and ei.HOBBY like concat('%', #{hobby}, '%')
+            </if>
+            <if test="remark != null">
+                and ei.REMARK like concat('%', #{remark}, '%')
+            </if>
+            <if test="createDate != null">
+                and ei.CREATE_DATE like concat(#{createDate}, '%')
+            </if>
+        </where> order by ei.CREATE_DATE desc
+    </select>
+
+    <select id="queryAllEmployee" resultType="EmployeeInf">
+        select * from employee_inf;
+    </select>
+
+    <insert id="addEmployee" parameterType="EmployeeInf">
+        insert into employee_inf (ID, DEPT_ID, JOB_ID, NAME, CARD_ID, ADDRESS, POST_CODE, TEL, PHONE, QQ_NUM, EMAIL, SEX, PARTY, BIRTHDAY, RACE, EDUCATION, SPECIALITY, HOBBY, REMARK, CREATE_DATE)
+        values
+        (#{id}, #{deptId}, #{jobId}, #{name}, #{cardId}, #{address}, #{postCode}, #{tel}, #{phone},#{qqNum}, #{email}, #{sex}, #{party}, #{birthday}, #{race}, #{education}, #{speciality},#{hobby}, #{remark}, #{createDate});
+    </insert>
+
+    <update id="updateEmployee" parameterType="EmployeeInf">
+        update employee_inf
+        set DEPT_ID=#{deptId}, JOB_ID=#{jobId}, NAME=#{name}, CARD_ID=#{cardId}, ADDRESS=#{address}, POST_CODE=#{postCode}, TEL=#{tel}, PHONE=#{phone}, QQ_NUM=#{qqNum}, EMAIL=#{email}, SEX=#{sex}, PARTY=#{party}, BIRTHDAY=#{birthday}, RACE=#{race}, EDUCATION=#{education}, SPECIALITY=#{speciality}, HOBBY=#{hobby}, REMARK=#{remark}, CREATE_DATE=#{createDate}
+        where ID=#{id};
+    </update>
+    <delete id="deleteEmployee" parameterType="int">
+        delete
+        from employee_inf
+        where ID=#{id};
+    </delete>
+</mapper>

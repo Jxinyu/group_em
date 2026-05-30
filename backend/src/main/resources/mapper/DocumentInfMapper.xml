@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gp.mapper.DocumentInfMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.gp.pojo.DocumentInf">
+        <id column="ID" property="id"/>
+        <result column="TITLE" property="title"/>
+        <result column="Filename" property="filename"/>
+        <result column="REMARK" property="remark"/>
+        <result column="file_type" property="fileType"/>
+        <result column="CREATE_DATE" property="createDate"/>
+        <result column="USER_ID" property="userId"/>
+        <result column="FilePath" property="filePath"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, TITLE, Filename, REMARK, fileType, CREATE_DATE, USER_ID, FilePath
+    </sql>
+    <select id="queryOneDocument" parameterType="documentInf" resultType="documentInf">
+        select *
+        from document_inf
+        <where>
+            <if test="id != null">
+                and ID=#{id}
+            </if>
+            <if test="title != null">
+                and TITLE like concat('%', #{title}, '%')
+            </if>
+            <if test="filename != null">
+                and filename=#{filename}
+            </if>
+            <if test="remark != null">
+                and remark=#{remark}
+            </if>
+            <if test="createDate != null">
+                and createDate=#{createDate}
+            </if>
+            <if test="userId != null">
+                and userId=#{userId}
+            </if>
+            <if test="filePath != null">
+                and filePath=#{filePath}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertUploadFile" parameterType="documentInf">
+        insert into document_inf (id, title, filename, remark, file_type,create_date, user_id, filepath)
+            VALUE (id, #{documentInf.title}, #{documentInf.filename}, #{documentInf.remark},
+                   #{documentInf.fileType}, #{documentInf.createDate},
+                   (select ID from user_inf where Loginname = #{username}), #{documentInf.filePath})
+    </insert>
+
+    <select id="queryDocumentList" parameterType="documentInf" resultType="documentInf">
+        select d.id, d.title, d.filename, d.remark, d.file_type, d.create_date, u.Loginname as loginName, d.filepath from document_inf d
+        join user_inf u on d.USER_ID = u.ID
+        <where>
+            <if test="title != null">
+                and d.TITLE like concat('%', #{title}, '%')
+            </if>
+            <if test="filename != null">
+                and d.Filename like concat('%', #{filename}, '%')
+            </if>
+            <if test="remark != null">
+                and d.REMARK like concat('%', #{remark}, '%')
+            </if>
+            <if test="createDate != null">
+                and d.CREATE_DATE like concat(#{createDate}, '%')
+            </if>
+            <if test="loginName != null">
+                and d.USER_ID in (select ID from user_inf where Loginname like concat('%', #{loginName}, '%'))
+            </if>
+        </where>
+        order by d.CREATE_DATE desc
+    </select>
+
+</mapper>

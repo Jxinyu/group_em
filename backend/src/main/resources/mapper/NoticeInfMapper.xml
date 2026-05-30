@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gp.mapper.NoticeInfMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.gp.pojo.NoticeInf">
+        <id column="ID" property="id" />
+        <result column="TITLE" property="title" />
+        <result column="CONTENT" property="content" />
+        <result column="CREATE_DATE" property="createDate" />
+        <result column="USER_ID" property="userId" />
+    </resultMap>
+
+
+    <select id="queryNoticeList" parameterType="noticeInf" resultType="noticeInf">
+        select n.ID, n.TITLE, n.CONTENT, n.CREATE_DATE,
+               u.Loginname as loginName from notice_inf n join user_inf u on u.ID = n.USER_ID
+        <where>
+            <if test="id != null">
+                and n.ID=#{id}
+            </if>
+            <if test="title != null">
+                and n.TITLE LIKE concat('%', #{title}, '%')
+            </if>
+            <if test="content != null">
+                and n.CONTENT LIKE concat('%', #{content}, '%')
+            </if>
+            <if test="createDate != null">
+                and n.CREATE_DATE like concat(#{createDate}, '%')
+            </if>
+            <if test="loginName != null">
+                and u.Loginname like concat('%', #{loginName}, '%')
+            </if>
+        </where>
+        order by n.CREATE_DATE desc
+    </select>
+
+    <update id="updateNoticeById" parameterType="noticeInf">
+        update notice_inf set TITLE=#{noticeInf.title},
+                              CONTENT=#{noticeInf.content},
+                              CREATE_DATE=#{noticeInf.createDate},
+                              USER_ID=(select u.ID from user_inf u where u.Loginname=#{Loginname})
+        where ID=#{noticeInf.id}
+    </update>
+
+    <insert id="insertNotice" parameterType="noticeInf" >
+        insert into notice_inf (id, title, content, create_date, user_id) VALUE
+            (null, #{noticeInf.title}, #{noticeInf.content}, #{noticeInf.createDate}, (select ID from user_inf where Loginname=#{Loginname}))
+    </insert>
+
+
+    <select id="getPushedByUsernameAndStatus" resultType="noticeInf">
+        select * from notice_inf ni where ni.ID in
+            (select wn.n_id from wait_notice wn where wn.n_id not in
+                  (select pn.notice_id from pushed_notice pn where pn.user_name=#{username})
+                         and (scope=#{status} or scope=3 or scope=5))
+    </select>
+
+</mapper>

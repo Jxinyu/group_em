@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gp.mapper.JobInfMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.gp.pojo.JobInf">
+        <id column="ID" property="id" />
+        <result column="NAME" property="name" />
+        <result column="REMARK" property="remark" />
+        <result column="DEPT_ID" property="deptId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, NAME, REMARK, DEPT_ID
+    </sql>
+
+
+    <select id="queryOneJob" parameterType="int" resultType="JobInf">
+        select ji.*, (select NAME from dept_inf where ji.dept_id=id) as dept
+        from job_inf ji
+        <where>
+            <if test="id != null">
+                and ji.ID like concat('%', #{id}, '%')
+            </if>
+            <if test="name != null">
+                and ji.NAME like concat('%', #{name}, '%')
+            </if>
+
+            <if test="remark != null">
+                and ji.REMARK like concat('%', #{remark}, '%')
+            </if>
+            <if test="deptId != null">
+                and ji.DEPT_ID = #{deptId}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryAllJob" resultType="JobInf">
+        select * from job_inf;
+    </select>
+
+    <insert id="addJob" parameterType="JobInf">
+        insert into job_inf (ID, NAME, REMARK, DEPT_ID)
+        values
+        (#{id}, #{name}, #{remark}, #{deptId});
+    </insert>
+
+    <update id="updateJob" parameterType="JobInf">
+        update job_inf
+        set NAME=#{name}, REMARK=#{remark}, DEPT_ID=#{deptId}
+        where ID=#{id};
+    </update>
+    <delete id="deleteJob" parameterType="int">
+        delete
+        from job_inf
+        where ID=#{id};
+    </delete>
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gp.mapper.ChattingMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.gp.pojo.Chatting">
+        <id column="key_username" property="keyUsername" />
+        <result column="side_username" property="sideUsername" />
+        <result column="content" property="content" />
+        <result column="datetime" property="datetime" />
+    </resultMap>
+
+    <select id="getChatByKeyAndSide" parameterType="string" resultType="chatting">
+        select * from chatting where (key_username=#{keyUsername} and side_username=#{sideUsername})
+        or (key_username=#{sideUsername} and side_username=#{keyUsername})
+        order by datetime
+    </select>
+
+</mapper>

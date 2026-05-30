@@ -1,0 +1,81 @@
+server:
+  port: 8080
+  tomcat:
+    accept-count: 10000
+    max-swallow-size: 1000MB  # 防止文件过大被自动拦�?
+spring:
+  datasource:
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
+    url: ${DB_URL:jdbc:mysql://localhost:3306/csi?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  #热部署插�?
+  devtools:
+    restart:
+      #需要实时更新的目录
+      additional-paths: java/**
+  servlet:
+    multipart:
+      enabled: true #默认支持文件上传
+      max-file-size: 1000MB # 业务中处理文件大小拦�?
+      max-request-size: 1000MB # 业务中处理文件大小拦�?
+
+  mail:
+    host: smtp.qq.com #邮件服务器地址
+    port: 587 #邮件服务器端口。注意不能采�?2端口，否则部署到服务器之后无法使�?
+    protocol: smtp #使用的协�?
+    default-encoding: UTF-8 #默认编码
+    username: ${MAIL_USERNAME:} #这个是通过邮件服务器认证的用户名和密码，不一定是邮箱，看服务器的要求
+    password: ${MAIL_PASSWORD:} #密码/授权�?
+    properties: #properties 中的属性都是比较灵活可配置的，其实是javax.mail.Session中对应的配置项，可以参考对应文�?
+    properties.mail.smpt.ssl.enable: true #开启加密验�?
+
+  # 配置跨域的问�?
+  graphql:
+    # 允许跨域访问的来�?
+    cors:
+      allowedOrigins: http://localhost:3333/
+    # 允许跨域访问的请求方�?
+    cors.allowedMethods: GET,POST,PUT,DELETE
+    # 允许跨域访问的请求头
+    cors.allowedHeaders: "*"
+    # 是否允许发送身份验证信息（�?Cookies�?
+    cors.allowCredentials: true
+    # 预检请求的缓存时间（秒）
+    cors.maxAge: 3600
+  task:
+    execution:
+      pool:
+        core-size: 10
+        max-size: 20
+        queue-capacity: 1000
+
+
+#整合mp
+mybatis-plus:
+  type-aliases-package: com.gp.pojo
+  mapper-locations: classpath:mapper/*.xml
+  #  开启驼峰命�?
+  configuration:
+    map-underscore-to-camel-case: true
+    # 开启日�?
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: deleted # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
+      logic-delete-value: 1 # 逻辑已删除�?默认�?1)
+      logic-not-delete-value: 0 # 逻辑未删除�?默认�?0)
+#pagehelper分页插件配置
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+# 自定义参�?
+global:
+  # 文件上传的路�?
+  file_upload_path: E:/file/
+    # 公告图像上传的路�?
+  notice_img_upload_path: E:/img/
